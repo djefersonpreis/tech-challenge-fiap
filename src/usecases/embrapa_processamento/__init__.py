@@ -3,20 +3,20 @@ from typing import Union, List
 import re
 import pandas as pd
 
-class EmbrapaProducaoUsecase():
+class EmbrapaProcessamentoUsecase():
     """
-    Classe responsável por executar os processos da rota get_dados_producao
+    Classe responsável por executar os processos da rota get_dados_processamento
     """
     def __init__(self, ano: Union[List[int], int, None, str]) -> None:
-        self.__TAB_ID = 'opt_02'
+        self.__TAB_ID = 'opt_03'
         self.ano = ano
 
     def execute(self) -> pd.DataFrame:
         """
-        Executa o processo de busca das informações da sessão [Produção] -> {http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_02}
+        Executa o processo de busca das informações da sessão [Processamento] -> {http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_03}
 
         returns: 
-            dataset_producao (pd.DataFrame): Dataset com as informações de Produção
+            dataset_producao (pd.DataFrame): Dataset com as informações de Processamento
         """
         
         urls_buscas = []
