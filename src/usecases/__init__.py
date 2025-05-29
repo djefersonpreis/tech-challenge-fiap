@@ -17,3 +17,5 @@ from src.usecases.embrapa_comercializacao import EmbrapaComercializacaoUsecase
 from src.usecases.embrapa_comercializacao.dtos import EmbrapaComercializacaoRequest
 from src.usecases.embrapa_importacao import EmbrapaImportacaoUsecase
 from src.usecases.embrapa_importacao.dtos import EmbrapaImportacaoRequest
+from src.usecases.embrapa_exportacao import EmbrapaExportacaoUsecase
+from src.usecases.embrapa_exportacao.dtos import EmbrapaExportacaoRequest

@@ -41,9 +41,9 @@ def scrape_table(url: str, year: int):
             df_items['ano'] = year
             return df_items
         
-def scrape_table_importacao_comercializacao(url: str, year: int):
+def scrape_table_importacao_exportacao(url: str, year: int):
     """Realiza a busca na url Indicada, minerando os dados da tabela
-        * Função deve somente ser utilizada para as abas de importação e comercialização
+        * Função deve somente ser utilizada para as abas de importação e exportação
 
     parameters:
         url (str): Url para realizar a mineração

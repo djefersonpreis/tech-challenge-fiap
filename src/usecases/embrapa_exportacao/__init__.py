@@ -3,27 +3,26 @@ from typing import Union, List
 import re
 import pandas as pd
 
-class EmbrapaImportacaoUsecase():
+class EmbrapaExportacaoUsecase():
     """
-    Classe responsável por executar os processos da rota get_dados_importacao
+    Classe responsável por executar os processos da rota get_dados_exportacao
     """
     def __init__(self, ano: Union[List[int], int, None, str]) -> None:
-        self.__TAB_ID = 'opt_05'
+        self.__TAB_ID = 'opt_06'
         self.__categorias = [
             { 'id': 'subopt_01', 'nome': 'Vinhos de mesa' },
             { 'id': 'subopt_02', 'nome': 'Espumantes' },
             { 'id': 'subopt_03', 'nome': 'Uvas frescas' },
-            { 'id': 'subopt_04', 'nome': 'Uvas passas' },
-            { 'id': 'subopt_05', 'nome': 'Suco de uva' }
+            { 'id': 'subopt_04', 'nome': 'Suco de uva' }
         ]
         self.ano = ano
 
     def execute(self) -> pd.DataFrame:
         """
-        Executa o processo de busca das informações da sessão [Importação] -> {http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_05}
+        Executa o processo de busca das informações da sessão [Exportacao] -> {http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_6}
 
         returns: 
-            dataset_importacao (pd.DataFrame): Dataset com as informações de Importação
+            dataset_exportacao (pd.DataFrame): Dataset com as informações de Exportacao
         """
         
         urls_buscas = []
@@ -44,7 +43,7 @@ class EmbrapaImportacaoUsecase():
             
         #
             
-        dataset_importacao = pd.DataFrame()
+        dataset_exportacao = pd.DataFrame()
         for url, ano in urls_buscas:
             
             if ano >= 1970 and ano <= 2024:
@@ -53,13 +52,13 @@ class EmbrapaImportacaoUsecase():
                     df = scrape_table_importacao_exportacao(url, ano)
                     if df is not None:
                         df['categoria'] = categoria['nome']
-                        dataset_importacao = pd.concat([dataset_importacao, df], ignore_index=True)
+                        dataset_exportacao = pd.concat([dataset_exportacao, df], ignore_index=True)
         
-        if dataset_importacao.empty:
+        if dataset_exportacao.empty:
             raise ValueError("Não há dados a serem processados para o ano informado.")
         
-        dataset_importacao = dataset_importacao.drop_duplicates().reset_index(drop=True)
-        dataset_importacao['quantidade'] = dataset_importacao['quantidade'].astype(int)
-        dataset_importacao = dataset_importacao.sort_values(by=['categoria','pais']).reset_index(drop=True)
-        return dataset_importacao
+        dataset_exportacao = dataset_exportacao.drop_duplicates().reset_index(drop=True)
+        dataset_exportacao['quantidade'] = dataset_exportacao['quantidade'].astype(int)
+        dataset_exportacao = dataset_exportacao.sort_values(by=['categoria','pais']).reset_index(drop=True)
+        return dataset_exportacao
         

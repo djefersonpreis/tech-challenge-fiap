@@ -37,9 +37,11 @@ class EmbrapaProcessamentoUsecase():
             
         dataset_processamento = pd.DataFrame()
         for url, ano in urls_buscas:
-            df = scrape_table(url, ano)
-            if df is not None:
-                dataset_processamento = pd.concat([dataset_processamento, df], ignore_index=True)
+            
+            if ano >= 1970 and ano <= 2024:
+                df = scrape_table(url, ano)
+                if df is not None:
+                    dataset_processamento = pd.concat([dataset_processamento, df], ignore_index=True)
         
         if dataset_processamento.empty:
             raise ValueError("Não há dados a serem processados para o ano informado.")
