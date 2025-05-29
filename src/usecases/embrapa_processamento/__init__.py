@@ -16,7 +16,7 @@ class EmbrapaProcessamentoUsecase():
         Executa o processo de busca das informações da sessão [Processamento] -> {http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_03}
 
         returns: 
-            dataset_producao (pd.DataFrame): Dataset com as informações de Processamento
+            dataset_processamento (pd.DataFrame): Dataset com as informações de Processamento
         """
         
         urls_buscas = []
@@ -35,17 +35,17 @@ class EmbrapaProcessamentoUsecase():
         else:
             urls_buscas.append([f'http://vitibrasil.cnpuv.embrapa.br/index.php?opcao={self.__TAB_ID}&ano={self.ano}', self.ano])
             
-        dataset_producao = pd.DataFrame()
+        dataset_processamento = pd.DataFrame()
         for url, ano in urls_buscas:
             df = scrape_table(url, ano)
             if df is not None:
-                dataset_producao = pd.concat([dataset_producao, df], ignore_index=True)
+                dataset_processamento = pd.concat([dataset_processamento, df], ignore_index=True)
         
-        if dataset_producao.empty:
+        if dataset_processamento.empty:
             raise ValueError("Não há dados a serem processados para o ano informado.")
         
-        dataset_producao = dataset_producao.drop_duplicates().reset_index(drop=True)
-        dataset_producao['quantidade'] = dataset_producao['quantidade'].astype(int)
-        dataset_producao = dataset_producao.sort_values(by=['categoria', 'item']).reset_index(drop=True)
-        return dataset_producao
+        dataset_processamento = dataset_processamento.drop_duplicates().reset_index(drop=True)
+        dataset_processamento['quantidade'] = dataset_processamento['quantidade'].astype(int)
+        dataset_processamento = dataset_processamento.sort_values(by=['categoria', 'item']).reset_index(drop=True)
+        return dataset_processamento
         
