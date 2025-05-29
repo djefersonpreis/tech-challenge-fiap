@@ -3,11 +3,11 @@ from pydantic import Field, BaseModel
 
 
 class EmbrapaProcessamentoRequest(BaseModel):
-    """Classe para definir os parâmetros de consulta para a rota de produção da Embrapa."""
+    """Classe para definir os parâmetros de consulta para a rota de Processamento da Embrapa."""
 
     ano: Union[List[int], int, None, str] = Field(
         default=1970,
-        description="Ano(s) para filtrar os dados de produção. Aceita um único ano ou uma lista de anos.",
+        description="Ano(s) para filtrar os dados de Processamento. Aceita um único ano ou uma lista de anos.",
         example=[
             2020,
             2021,

@@ -2,12 +2,12 @@ from typing import Union, List
 from pydantic import Field, BaseModel
 
 
-class EmbrapaComercializacaoRequest(BaseModel):
-    """Classe para definir os parâmetros de consulta para a rota de comercialização da Embrapa."""
+class EmbrapaImportacaoRequest(BaseModel):
+    """Classe para definir os parâmetros de consulta para a rota de importacao da Embrapa."""
 
     ano: Union[List[int], int, None, str] = Field(
         default=1970,
-        description="Ano(s) para filtrar os dados de comercialização. Aceita um único ano ou uma lista de anos.",
+        description="Ano(s) para filtrar os dados de importacao. Aceita um único ano ou uma lista de anos.",
         example=[
             2020,
             2021,

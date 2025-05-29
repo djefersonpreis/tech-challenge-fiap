@@ -13,7 +13,7 @@ class EmbrapaComercializacaoUsecase():
 
     def execute(self) -> pd.DataFrame:
         """
-        Executa o processo de busca das informações da sessão [Comercialização] -> {http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_03}
+        Executa o processo de busca das informações da sessão [Comercialização] -> {http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_04}
 
         returns: 
             dataset_comercializacao (pd.DataFrame): Dataset com as informações de Comercialização
