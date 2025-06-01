@@ -2,6 +2,7 @@ from src.utils.scrape_utils import scrape_table
 from typing import Union, List
 import re
 import pandas as pd
+import logging
 
 class EmbrapaProcessamentoUsecase():
     """
@@ -9,6 +10,12 @@ class EmbrapaProcessamentoUsecase():
     """
     def __init__(self, ano: Union[List[int], int, None, str]) -> None:
         self.__TAB_ID = 'opt_03'
+        self.__categorias = [
+            { 'id': 'subopt_01', 'nome': 'Viníferas' },
+            { 'id': 'subopt_02', 'nome': 'Americanas e Híbridas' },
+            { 'id': 'subopt_03', 'nome': 'Uvas de mesa' },
+            { 'id': 'subopt_04', 'nome': 'Sem Classificação' },
+        ]
         self.ano = ano
 
     def execute(self) -> pd.DataFrame:
@@ -34,14 +41,23 @@ class EmbrapaProcessamentoUsecase():
                 urls_buscas.append([f'http://vitibrasil.cnpuv.embrapa.br/index.php?opcao={self.__TAB_ID}&ano={range_years}', range_years])
         else:
             urls_buscas.append([f'http://vitibrasil.cnpuv.embrapa.br/index.php?opcao={self.__TAB_ID}&ano={self.ano}', self.ano])
-            
+        
         dataset_processamento = pd.DataFrame()
-        for url, ano in urls_buscas:
-            
-            if ano >= 1970 and ano <= 2024:
-                df = scrape_table(url, ano)
-                if df is not None:
-                    dataset_processamento = pd.concat([dataset_processamento, df], ignore_index=True)
+        try:
+            for url, ano in urls_buscas:
+                if ano >= 1970 and ano <= 2024:
+                    for categoria in self.__categorias:
+                        url = f"{url}&subopcao={categoria['id']}"
+                        df = scrape_table(url, ano)
+                        df['classificacao'] = categoria['nome']
+                        if df is not None:
+                            dataset_processamento = pd.concat([dataset_processamento, df], ignore_index=True)
+                            
+        except Exception as e:
+            logging.error(f"Erro ao processar os dados de processamento: {e}")
+            logging.info("Buscando informações em dados processados anteriormente...")
+            df = pd.read_csv('/app/data/processamento.csv')
+            dataset_processamento = df[df['ano'].isin([ano for _, ano in urls_buscas])]
         
         if dataset_processamento.empty:
             raise ValueError("Não há dados a serem processados para o ano informado.")

@@ -14,7 +14,8 @@ WORKDIR /app
 COPY --from=requirements-stage /tmp/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./src ./src
+COPY ./src /app/src
+COPY ./data /app/data
 
 ARG api_version=""
 ENV API_VERSION=${api_version}

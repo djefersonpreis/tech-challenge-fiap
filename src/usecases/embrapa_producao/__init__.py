@@ -1,3 +1,4 @@
+import logging
 from src.utils.scrape_utils import scrape_table
 from typing import Union, List
 import re
@@ -36,12 +37,18 @@ class EmbrapaProducaoUsecase():
             urls_buscas.append([f'http://vitibrasil.cnpuv.embrapa.br/index.php?opcao={self.__TAB_ID}&ano={self.ano}', self.ano])
             
         dataset_producao = pd.DataFrame()
-        for url, ano in urls_buscas:
-            
-            if ano >= 1970 and ano <= 2024:
-                df = scrape_table(url, ano)
-                if df is not None:
-                    dataset_producao = pd.concat([dataset_producao, df], ignore_index=True)
+        try:
+            for url, ano in urls_buscas:
+                if ano >= 1970 and ano <= 2024:
+                    df = scrape_table(url, ano)
+                    if df is not None:
+                        dataset_producao = pd.concat([dataset_producao, df], ignore_index=True)
+                            
+        except Exception as e:
+            logging.error(f"Erro ao processar os dados de producao: {e}")
+            logging.info("Buscando informações em dados processados anteriormente...")
+            df = pd.read_csv('/app/data/producao.csv')
+            dataset_producao = df[df['ano'].isin([ano for _, ano in urls_buscas])]
         
         if dataset_producao.empty:
             raise ValueError("Não há dados a serem processados para o ano informado.")

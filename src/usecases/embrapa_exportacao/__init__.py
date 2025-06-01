@@ -1,3 +1,4 @@
+import logging
 from src.utils.scrape_utils import scrape_table_importacao_exportacao
 from typing import Union, List
 import re
@@ -41,18 +42,22 @@ class EmbrapaExportacaoUsecase():
         else:
             urls_buscas.append([f'http://vitibrasil.cnpuv.embrapa.br/index.php?opcao={self.__TAB_ID}&ano={self.ano}', self.ano])
             
-        #
-            
         dataset_exportacao = pd.DataFrame()
-        for url, ano in urls_buscas:
-            
-            if ano >= 1970 and ano <= 2024:
-                for categoria in self.__categorias:
-                    url = f"{url}&subopcao={categoria['id']}"
-                    df = scrape_table_importacao_exportacao(url, ano)
-                    if df is not None:
-                        df['categoria'] = categoria['nome']
-                        dataset_exportacao = pd.concat([dataset_exportacao, df], ignore_index=True)
+        try:
+            for url, ano in urls_buscas:
+                if ano >= 1970 and ano <= 2024:
+                    for categoria in self.__categorias:
+                        url = f"{url}&subopcao={categoria['id']}"
+                        df = scrape_table_importacao_exportacao(url, ano)
+                        if df is not None:
+                            df['categoria'] = categoria['nome']
+                            dataset_exportacao = pd.concat([dataset_exportacao, df], ignore_index=True)
+                            
+        except Exception as e:
+            logging.error(f"Erro ao processar os dados de exportação: {e}")
+            logging.info("Buscando informações em dados processados anteriormente...")
+            df = pd.read_csv('/app/data/exportacao.csv')
+            dataset_exportacao = df[df['ano'].isin([ano for _, ano in urls_buscas])]
         
         if dataset_exportacao.empty:
             raise ValueError("Não há dados a serem processados para o ano informado.")

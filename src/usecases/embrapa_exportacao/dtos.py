@@ -20,6 +20,6 @@ class EmbrapaExportacaoRequest(BaseModel):
     )
     download_csv: bool = Field(
         default=False,
-        description="Se True, retorna os dados em formato CSV.",
+        description="Se True, retorna os dados em formato CSV. Caso contrário, retorna os dados em formato JSON.",
         example=True,
     )
