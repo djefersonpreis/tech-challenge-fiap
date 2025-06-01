@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.post("/producao")
-async def get_dados_producao(request: EmbrapaProducaoRequest):
+async def busca_dados_producao(request: EmbrapaProducaoRequest):
     """
     Busca de Informações sobre a Produção de vinhos, sucos e derivados do Rio Grande do Sul
     Origem das informações: [Produção](http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_02)
@@ -53,7 +53,7 @@ async def get_dados_producao(request: EmbrapaProducaoRequest):
 
 
 @router.post("/processamento")
-async def get_dados_processamento(request: EmbrapaProcessamentoRequest):
+async def busca_dados_processamento(request: EmbrapaProcessamentoRequest):
     """
     Busca de Informações sobre a Processamento de vinhos, sucos e derivados do Rio Grande do Sul
     Origem das informações: [Processamento](http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_03)
@@ -96,7 +96,7 @@ async def get_dados_processamento(request: EmbrapaProcessamentoRequest):
 
 
 @router.post("/comercializacao")
-async def get_dados_comercializacao(request: EmbrapaComercializacaoRequest):
+async def busca_dados_comercializacao(request: EmbrapaComercializacaoRequest):
     """
     Busca de Informações sobre a Comercialização de vinhos, sucos e derivados do Rio Grande do Sul
     Origem das informações: [Comercialização](http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_04)
@@ -138,7 +138,7 @@ async def get_dados_comercializacao(request: EmbrapaComercializacaoRequest):
 
 
 @router.post("/importacao")
-async def get_dados_importacao(request: EmbrapaImportacaoRequest):
+async def busca_dados_importacao(request: EmbrapaImportacaoRequest):
     """
     Busca de Informações sobre a Importação de vinhos, sucos e derivados do Rio Grande do Sul
     Origem das informações: [Importação](http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_05)
@@ -182,7 +182,7 @@ async def get_dados_importacao(request: EmbrapaImportacaoRequest):
 
 
 @router.post("/exportacao")
-async def get_dados_exportacao(request: EmbrapaExportacaoRequest):
+async def busca_dados_exportacao(request: EmbrapaExportacaoRequest):
     """
     Busca de Informações sobre a Exportação de vinhos, sucos e derivados do Rio Grande do Sul
     Origem das informações: [Exportação](http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_06)
